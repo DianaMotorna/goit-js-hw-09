@@ -1,5 +1,5 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 function convertMs(ms) {
   const second = 1000;
@@ -19,7 +19,7 @@ function addLeadingZero(value) {
   return value.toString().padStart(2, '0');
 }
 
-const datetimePicker = flatpickr("#datetime-picker", {
+const datetimePicker = flatpickr('#datetime-picker', {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
@@ -28,7 +28,7 @@ const datetimePicker = flatpickr("#datetime-picker", {
     const selectedDate = selectedDates[0];
 
     if (selectedDate <= new Date()) {
-      window.alert("Please choose a date in the future");
+      window.alert('Please choose a date in the future');
       document.querySelector('[data-start]').disabled = true;
     } else {
       document.querySelector('[data-start]').disabled = false;

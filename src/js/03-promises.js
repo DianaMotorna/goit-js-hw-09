@@ -13,7 +13,7 @@ function createPromise(position, delay) {
   });
 }
 
-document.querySelector('.form').addEventListener('submit', (event) => {
+document.querySelector('.form').addEventListener('submit', event => {
   event.preventDefault();
 
   const delayInput = document.querySelector('input[name="delay"]');
@@ -31,16 +31,15 @@ document.querySelector('.form').addEventListener('submit', (event) => {
     promises.push(createPromise(i, delay));
   }
 
-  Promise.allSettled(promises)
-    .then((results) => {
-      results.forEach((result) => {
-        if (result.status === 'fulfilled') {
-          const { position, delay } = result.value;
-          console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-        } else if (result.status === 'rejected') {
-          const { position, delay } = result.reason;
-          console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-        }
-      });
+  Promise.allSettled(promises).then(results => {
+    results.forEach(result => {
+      if (result.status === 'fulfilled') {
+        const { position, delay } = result.value;
+        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      } else if (result.status === 'rejected') {
+        const { position, delay } = result.reason;
+        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      }
     });
+  });
 });
