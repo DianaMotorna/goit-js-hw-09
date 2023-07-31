@@ -1,13 +1,16 @@
 function createPromise(position, delay) {
-  return new Promise(async (resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
-    await new Promise((innerResolve) => setTimeout(innerResolve, delay));
-    if (shouldResolve) {
-      resolve({ position, delay });
-    } else {
-      reject({ position, delay });
-    }
-  });
+  console.log('delay 1', delay);
+
+  const shouldResolve = Math.random() > 0.3;
+  if (shouldResolve) {
+    return new Promise(resolve =>
+      setTimeout(resolve, delay, { position, delay })
+    );
+  } else {
+    return new Promise((resolve, reject) =>
+      setTimeout(reject, delay, { position, delay })
+    );
+  }
 }
 
 document.querySelector('.form').addEventListener('submit', async event => {
@@ -21,23 +24,15 @@ document.querySelector('.form').addEventListener('submit', async event => {
   const step = Number(stepInput.value);
   const amount = Number(amountInput.value);
 
-  const promises = [];
-
   for (let i = 1; i <= amount; i++) {
     const delay = firstDelay + (i - 1) * step;
-    promises.push(createPromise(i, delay));
-    await new Promise((innerResolve) => setTimeout(innerResolve, step));
-  }
 
-  Promise.allSettled(promises).then(results => {
-    results.forEach(result => {
-      if (result.status === 'fulfilled') {
-        const { position, delay } = result.value;
+    createPromise(i, delay)
+      .then(({ position, delay }) => {
         console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-      } else if (result.status === 'rejected') {
-        const { position, delay } = result.reason;
+      })
+      .catch(({ position, delay }) => {
         console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-      }
-    });
-  });
+      });
+  }
 });
