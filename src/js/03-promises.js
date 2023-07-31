@@ -11,7 +11,7 @@ function createPromise(position, delay) {
   }
 }
 
-document.querySelector('.form').addEventListener('submit', async event => {
+document.querySelector('.form').addEventListener('submit', event => {
   event.preventDefault();
 
   const delayInput = document.querySelector('input[name="delay"]');
