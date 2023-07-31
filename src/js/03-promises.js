@@ -1,19 +1,16 @@
 function createPromise(position, delay) {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
+    await new Promise((innerResolve) => setTimeout(innerResolve, delay));
     if (shouldResolve) {
-      setTimeout(() => {
-        resolve({ position, delay });
-      }, delay);
+      resolve({ position, delay });
     } else {
-      setTimeout(() => {
-        reject({ position, delay });
-      }, delay);
+      reject({ position, delay });
     }
   });
 }
 
-document.querySelector('.form').addEventListener('submit', event => {
+document.querySelector('.form').addEventListener('submit', async event => {
   event.preventDefault();
 
   const delayInput = document.querySelector('input[name="delay"]');
@@ -29,6 +26,7 @@ document.querySelector('.form').addEventListener('submit', event => {
   for (let i = 1; i <= amount; i++) {
     const delay = firstDelay + (i - 1) * step;
     promises.push(createPromise(i, delay));
+    await new Promise((innerResolve) => setTimeout(innerResolve, step));
   }
 
   Promise.allSettled(promises).then(results => {

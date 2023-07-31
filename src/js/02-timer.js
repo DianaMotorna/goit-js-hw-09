@@ -39,7 +39,7 @@ const datetimePicker = flatpickr('#datetime-picker', {
 document.querySelector('[data-start]').addEventListener('click', () => {
   const selectedDate = datetimePicker.selectedDates[0];
   const currentDate = new Date();
-  const timeRemaining = selectedDate - currentDate;
+  let timeRemaining = selectedDate - currentDate; // Use 'let' instead of 'const'
 
   if (timeRemaining > 0) {
     const timerElements = {
